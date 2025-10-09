@@ -1,77 +1,51 @@
 <template>
-  <div>
-    <h1>{{ mensagem }}</h1>
+  <h1>
+    Formulário
+  </h1>
+    <form @submit.prevent="adicionar">
+    <input v-model.trim="novoTexto" placeholder="Digite a mensagem" />
+    <button>Adicionar</button>
+  </form>
 
-    <div class="contadorA">
-      <p :class="classContadorA" >ContadorA: {{ contadorA }}</p>
-      <button @click="incrementarA">Incrementar</button>
-      <p> - </p>
-      <button @click="decrementarA">Decrementar</button>
-    </div>
-    <hr>
-    <div class="contadorB">
-      <p :class="classContadorB">ContadorB: {{ contadorB }}</p>
-      <button @click="incrementarB">+1</button>
-      <p> - </p>
-      <button @click="decrementarB">-1</button>
-    </div>
-  </div>
-  <hr>
-  <div class="total">
-    <h2>Total: {{ total }}</h2>
-  </div>
+  <ul v-if="estado.itens.length">
+    <li v-for="m in estado.itens" :key="m.id">
+      #{{ m.id }} — {{ m.texto }}
+    </li>
+  </ul>
+  <p v-else>Lista vazia.</p>
 </template>
 
 <script setup>
-import { ref,computed } from 'vue'
+  import { reactive, ref } from 'vue'
 
-const mensagem = ref('Hello, Vicente.js!')
+  const estado = reactive({
+    nextId: 3,                    // próximo ID disponível (controle local)
+    itens: [
+      { id: 1, texto: 'Aprender Vue.js' },
+      { id: 2, texto: 'Estudar diretivas' }
+    ]
+  })
 
-const contadorA = ref(0)
-const contadorB = ref(0)
-const total = computed(() => contadorA.value + contadorB.value)
-const classContadorA = computed(() => contadorA.value > contadorB.value ? 'destaque' : '')
-const classContadorB = computed(() => contadorB.value > contadorA.value ? 'destaque' : '')
+  const novaTarefa = ref('')
 
-function incrementarA() {
-  contadorA.value++  
-}
-function decrementarA() {
-  contadorA.value--  
-}
-function incrementarB() {
-  contadorB.value++  
-}
-function decrementarB() {
-  contadorB.value--  
-}
+  function adicionarTarefa() {
+    if (!novaTarefa.value) return
+    estado.itens.push({
+      id: estado.nextId++,        // ID único garantido localmente
+      texto: novaTarefa.value
+    })
+    novaTarefa.value = ''
+  }
 
+  function removerTarefa(id) {
+    estado.itens = estado.itens.filter(t => t.id !== id)
+  }
 </script>
 
 <style scoped>
-h1 {
-  color: #42b983;
-  font-size: 2rem;
-  text-align: center;
-  margin-top: 50px;
-}
-
-.contador {
-  margin-top: 20px;
-  text-align: center;
-}
-
-button {
-  padding: 5px 10px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.destaque {
-  color: green;
-  border: 2px solid green;
-  border-radius: 10px;
-  padding: 5px;
-  font-weight: bold;
-}
+form { margin: 8px 0; }
+input { padding: 6px; margin-right: 6px; }
+ul { margin-top: 10px; padding-left: 20px; }
+li { margin-bottom: 6px; }
+button { cursor: pointer; }
 </style>

@@ -23,7 +23,6 @@ html,body{
 }
 .main-container {
   margin: 50px;
-  min-height: 100%;
   flex-grow: 1;
 }
 
@@ -31,5 +30,11 @@ h1 {
   text-align: center;
   font-size:42px;
   color: #222;
+}
+
+#app{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 </style>

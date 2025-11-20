@@ -30,6 +30,7 @@ h1 {
   text-align: center;
   font-size:42px;
   color: #222;
+  margin-bottom: 30px;
 }
 
 #app{

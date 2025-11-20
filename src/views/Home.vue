@@ -10,3 +10,7 @@
 import Banner from '../components/Banner.vue'
 import BurguerForm from '../components/BurguerForm.vue';
 </script>
+
+<style scoped>
+
+</style>
